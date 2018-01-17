@@ -1,6 +1,7 @@
 *.pyc
 db.sqlite3
-.env
-.idea
-.vagrant
+uploads/
+.env/
+.idea/
+.vagrant/
 Vagrantfile

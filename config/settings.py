@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
+# django apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+# installed aps
+INSTALLED_APPS += [
+    'rest_framework',
+]
+
+# project apps
+INSTALLED_APPS += [
+    'file_processing',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +63,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'fileupload.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +81,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'fileupload.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
@@ -120,3 +132,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+UPLOADS_DIR = 'uploads'
+ALLOWED_MIME_TYPES = [
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-excel',
+    'application/octet-stream',
+    'text/csv'
+]
+ALLOWED_CURRENCIES = ['EUR', 'GBP']
+ALLOWED_FILE_EXTENSIONS = ['csv', 'xls', 'xlsx']
+FILENAME_PATTERN = '-({currencies})_(\d+\.\d+\.\d+)\.({extensions})$'.format(
+    currencies='|'.join(ALLOWED_CURRENCIES),
+    extensions='|'.join(ALLOWED_FILE_EXTENSIONS),
+)
