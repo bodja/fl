@@ -1,15 +1,24 @@
 from django.db import models
 from django.conf import settings
 
+from suppliers.querysets import SupplierQueryset
+
 
 class Supplier(models.Model):
-    code = models.CharField(max_length=255)
+    objects = SupplierQueryset.as_manager()
+    USERNAME_FIELD = 'code'
+
+    code = models.CharField(unique=True, max_length=255)
     title = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
 
     class Meta(object):
         db_table = 'suppliers'
-        managed = settings.DEBUG  # for development mode when no database
+        managed = settings.DATABASES['suppliers_db']['TABLES_MANAGED']
+
+    def check_password(self, password):
+        # TODO
+        return password == password
 
 
 class Customer(models.Model):
@@ -25,7 +34,7 @@ class Customer(models.Model):
 
     class Meta(object):
         db_table = 'customers'
-        managed = settings.DEBUG
+        managed = settings.DATABASES['suppliers_db']['TABLES_MANAGED']
 
 
 class Product(models.Model):
@@ -35,7 +44,7 @@ class Product(models.Model):
 
     class Meta(object):
         db_table = 'products'
-        managed = settings.DEBUG
+        managed = settings.DATABASES['suppliers_db']['TABLES_MANAGED']
 
 
 class Transactions(models.Model):
@@ -49,4 +58,4 @@ class Transactions(models.Model):
 
     class Meta(object):
         db_table = 'transactions'
-        managed = settings.DEBUG
+        managed = settings.DATABASES['suppliers_db']['TABLES_MANAGED']

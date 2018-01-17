@@ -96,7 +96,11 @@ DATABASES = {
     'suppliers_db': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'suppliers_db.sqlite3'),
-
+        # need managed=True on the models in development mode to create the database
+        # when True requires next commands:
+        # ./manage.py makemigrations
+        # ./manage.py migrate --database=suppliers_db
+        'TABLES_MANAGED': DEBUG,
     }
 }
 
