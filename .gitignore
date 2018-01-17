@@ -1,5 +1,6 @@
 *.pyc
-db.sqlite3
+suppliers/migrations/
+*db.sqlite3
 uploads/
 .env/
 .idea/
