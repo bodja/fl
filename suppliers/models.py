@@ -27,7 +27,7 @@ class Customer(models.Model):
     title = models.CharField(max_length=255)
     address = models.CharField(max_length=255, null=True)
     currency = models.CharField(max_length=255)
-    last_delivered = models.DateTimeField(null=True)  # todo: check maybe it's TimeField
+    last_delivered = models.DateTimeField(null=True)
     month_value = models.FloatField(null=True)
     threatened_value = models.FloatField(null=True)
     growth = models.FloatField(null=True)
@@ -53,7 +53,7 @@ class Transactions(models.Model):
     cost = models.FloatField(null=True)
     price = models.FloatField(null=True)
     quantity = models.FloatField(null=True)
-    delivered = models.DateTimeField()  # todo: check maybe it's TimeField
+    delivered = models.DateTimeField()
     stopped = models.BooleanField()
 
     class Meta(object):

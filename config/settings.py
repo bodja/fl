@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import re
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -153,9 +154,12 @@ ALLOWED_MIME_TYPES = [
     'application/octet-stream',
     'text/csv'
 ]
+DATE_FORMAT = '%d.%m.%Y'
 ALLOWED_CURRENCIES = ['EUR', 'GBP']
 ALLOWED_FILE_EXTENSIONS = ['csv', 'xls', 'xlsx']
-FILENAME_PATTERN = '-({currencies})_(\d+\.\d+\.\d+)\.({extensions})$'.format(
+FILENAME_PATTERN = '-(?P<currency>{currencies})' \
+                   '_(?P<date>\d{{2}}\.\d{{2}}\.\d{{4}})' \
+                   '\.(?P<extension>{extensions})$'.format(
     currencies='|'.join(ALLOWED_CURRENCIES),
-    extensions='|'.join(ALLOWED_FILE_EXTENSIONS),
-)
+    extensions='|'.join(ALLOWED_FILE_EXTENSIONS))
+FILENAME_REGEX = re.compile(FILENAME_PATTERN, re.IGNORECASE)

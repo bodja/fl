@@ -18,19 +18,19 @@ class MimeTypeValidator(object):
 class RegexValidator(object):
     message = 'Does not match the pattern.'
     code = 'bad_string'
-    pattern = None
-    flags = None
+    regex = None
 
-    def __init__(self, pattern=None, flags=re.I):
-        self.pattern = pattern or self.pattern
-        self.flags = flags or self.flags
+    def __init__(self, regex=None):
+        self.regex = regex or self.regex
+        retype = type(re.compile(''))
+        assert isinstance(self.regex, retype)
 
     def __call__(self, value):
         if not self.is_valid(value):
             raise ValidationError(self.message, code=self.code)
 
     def is_valid(self, value):
-        return re.search(self.pattern, value, self.flags)
+        return self.regex.search(value)
 
 
 class FileNameValidator(RegexValidator):
