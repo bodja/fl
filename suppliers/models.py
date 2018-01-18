@@ -1,11 +1,11 @@
 from django.db import models
 from django.conf import settings
 
-from suppliers.querysets import SupplierQueryset
+from suppliers.querysets import SupplierQuerySet
 
 
 class Supplier(models.Model):
-    objects = SupplierQueryset.as_manager()
+    objects = SupplierQuerySet.as_manager()
     USERNAME_FIELD = 'code'
 
     code = models.CharField(unique=True, max_length=255)

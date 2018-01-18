@@ -50,9 +50,9 @@ INSTALLED_APPS += [
 
 # project apps
 INSTALLED_APPS += [
-    'file_processing',
-    'api',
-    'suppliers',
+    'file_processing.apps.FileProcessingConfig',
+    'api.apps.ApiConfig',
+    'suppliers.apps.SuppliersConfig',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +146,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 UPLOADS_DIR = 'uploads'
 ALLOWED_MIME_TYPES = [
