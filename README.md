@@ -7,8 +7,8 @@ Requires
 
 Required packages
 -----------------
-python3-pip
-redis-server
+* python3-pip
+* redis-server
 
 Quick start development mode
 ----------------------------
@@ -48,6 +48,7 @@ Make migrations for suppliers_db and apply them
         }
     }
 ```
+
 
 * `SUPPLIERS_TABLES_MANAGED=False` must be `False`
 * `DEBUG=False` must be `False`
