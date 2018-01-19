@@ -14,7 +14,7 @@ class Supplier(models.Model):
 
     class Meta(object):
         db_table = 'suppliers'
-        managed = settings.DATABASES['suppliers_db']['TABLES_MANAGED']
+        managed = settings.SUPPLIERS_TABLES_MANAGED
 
     def check_password(self, password):
         # TODO
@@ -34,7 +34,7 @@ class Customer(models.Model):
 
     class Meta(object):
         db_table = 'customers'
-        managed = settings.DATABASES['suppliers_db']['TABLES_MANAGED']
+        managed = settings.SUPPLIERS_TABLES_MANAGED
 
 
 class Product(models.Model):
@@ -44,7 +44,7 @@ class Product(models.Model):
 
     class Meta(object):
         db_table = 'products'
-        managed = settings.DATABASES['suppliers_db']['TABLES_MANAGED']
+        managed = settings.SUPPLIERS_TABLES_MANAGED
 
 
 class Transactions(models.Model):
@@ -58,4 +58,4 @@ class Transactions(models.Model):
 
     class Meta(object):
         db_table = 'transactions'
-        managed = settings.DATABASES['suppliers_db']['TABLES_MANAGED']
+        managed = settings.SUPPLIERS_TABLES_MANAGED

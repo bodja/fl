@@ -101,7 +101,6 @@ DATABASES = {
         # when True requires next commands:
         # ./manage.py makemigrations
         # ./manage.py migrate --database=suppliers_db
-        'TABLES_MANAGED': DEBUG,
     }
 }
 
@@ -144,24 +143,34 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
 STATIC_URL = '/static/'
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
+# SUPPLIERS_TABLES_MANAGED is used on the suppliers app models.
+# Defines if we want to manage the database and create migrations for it.
+# Should be SUPPLIERS_TABLES_MANAGED = False in development mode
+SUPPLIERS_TABLES_MANAGED = True
+# base dir for file upload
 UPLOADS_DIR = 'uploads'
+# used by api to validate the file mime type
 ALLOWED_MIME_TYPES = [
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'application/vnd.ms-excel',
     'application/octet-stream',
     'text/csv'
 ]
+# pattern to convert date string taken from filename to python date object
 DATE_FORMAT = '%d.%m.%Y'
+# used by api to validate currencies
 ALLOWED_CURRENCIES = ['EUR', 'GBP']
+# used by api to validate extension
 ALLOWED_FILE_EXTENSIONS = ['csv', 'xls', 'xlsx']
+# pattern to match filename
 FILENAME_PATTERN = '-(?P<currency>{currencies})' \
                    '_(?P<date>\d{{2}}\.\d{{2}}\.\d{{4}})' \
                    '\.(?P<extension>{extensions})$'.format(
     currencies='|'.join(ALLOWED_CURRENCIES),
     extensions='|'.join(ALLOWED_FILE_EXTENSIONS))
+# regex to parse currency date and extension from filename
 FILENAME_REGEX = re.compile(FILENAME_PATTERN, re.IGNORECASE)
