@@ -60,3 +60,8 @@ Set env variable like that `DJANGO_SETTINGS_MODULE="config.production_settings"`
 e.g.
 
     DJANGO_SETTINGS_MODULE="config.production_settings" ./manage.py runserver 0.0.0.0:8000
+
+Create user form console
+------------------------
+    
+    ./manage.py createsuperuser
