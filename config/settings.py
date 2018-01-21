@@ -27,7 +27,7 @@ SECRET_KEY = '@^bpx#=r&-1jlz4&9bi+u^-j2rpf!98t7$vk#1ej59=tnw@av('
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'fileupload',
+    'localhost',
 ]
 
 
@@ -95,8 +95,14 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
     'suppliers_db': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'suppliers_db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'eighty_six_development',
+        'USER': 'davidbowe',
+        'PASSWORD': 'davidbowe',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'suppliers_db.sqlite3'),
         # need managed=True on the models in development mode to create the database
         # when True requires next commands:
         # ./manage.py makemigrations

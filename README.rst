@@ -23,6 +23,15 @@ Make migrations for suppliers_db and apply them
     $ ./manage.py migrate --database=default
     $ ./manage.py migrate --database=suppliers_db
 
+##### Set service domain
+* `ALLOWED_HOSTS` setting should define the domain
+
+```
+    ALLOWED_HOSTS = [
+        'localhost',
+    ]
+```
+
 ##### Run server
     ./manage.py runserver 0.0.0.0:8000
 
@@ -59,3 +68,15 @@ Set env variable like that `DJANGO_SETTINGS_MODULE="config.production_settings"`
 e.g.
 
     DJANGO_SETTINGS_MODULE="config.production_settings" ./manage.py runserver 0.0.0.0:8000
+
+Administration
+--------------
+A super user can be created for administration
+
+    ./manage.py createsuperuser
+
+The admin site can be reached through the URL route
+
+```
+<service_domain>/admin/
+```
