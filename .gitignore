@@ -1,7 +1,9 @@
 *.pyc
 suppliers/migrations/
 *db.sqlite3
+settings_local.py
 uploads/
+logs/
 .env/
 .idea/
 .vagrant/

@@ -1,5 +1,6 @@
 import xlrd
-from .file_processor.parsers_registry import register
+
+from .parsers_registry import register
 
 
 def open_excel_sheet(file_instance, sheet=0):
@@ -41,8 +42,7 @@ def bd_parser(file_instance):
         while row < sheet.nrows:
             if ',' in str(sheet.cell(row, code_col).value):
                 # Set product code and title in a list
-                product = str(sheet.cell(row, code_col).value).split(',',
-                                                                          1)
+                product = str(sheet.cell(row, code_col).value).split(',', 1)
             elif 'Total' in str(sheet.cell(row, company_col).value):
                 # Unset product when transactions have been extracted
                 product = None

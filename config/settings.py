@@ -146,12 +146,50 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 STATIC_URL = '/static/'
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': 'fl %(asctime)s %(levelname)s %(name)s %(filename)s:'
+                      '%(lineno)d %(funcName)s %(process)d %(thread)d %(message)s',
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'logfile.log'),
+            'formatter': 'verbose',
+            'filters': ['require_debug_false'],
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+        },
+    },
+    'loggers': {
+        'file_processing': {
+            'handlers': ['file', 'console'],
+            'propagate': False,
+            'level': 'DEBUG',
+        }
+    }
+}
 
 # SUPPLIERS_TABLES_MANAGED is used on the suppliers app models.
 # Defines if we want to manage the database and create migrations for it.

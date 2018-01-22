@@ -1,4 +1,5 @@
 import os
+import logging
 
 from django.db import models
 from django.conf import settings
@@ -7,8 +8,12 @@ from django.db.models import signals
 
 from model_utils import Choices
 
+from suppliers.models import Transaction
 from .tasks import process_file
-from .file_processor import FileProcessor
+from .parsers_registry import get_parser
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 
 def supplier_directory_path(instance, filename):
@@ -33,9 +38,6 @@ class FileModel(models.Model):
     processing_status = models.CharField(max_length=25, choices=STATUSES,
                                          default=STATUSES.pending)
 
-    class Meta(object):
-        unique_together = ('supplier_id', 'date', 'currency')
-
     def can_be_processed(self):
         return self.processing_status == self.STATUSES.pending
 
@@ -43,14 +45,13 @@ class FileModel(models.Model):
         self.set_status(self.STATUSES.in_progress)
 
         try:
-            FileProcessor(
-                supplier_id=self.supplier_id,
-                currency=self.currency,
-                date=self.date,
-                file=self.file
-            ).process()
-        except Exception as err:
+            parser = get_parser(self.supplier_id)
+            data = parser(self.file)
+            Transaction.objects.update_or_create_from_data(data)
+
+        except Exception:  # todo: specify exact exceptions
             self.set_status(self.STATUSES.fail)
+            logger.exception('Failed to process the file %s.', self.file.name)
         else:
             self.set_status(self.STATUSES.success)
 

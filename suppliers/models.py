@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-from suppliers.querysets import SupplierQuerySet
+from suppliers.querysets import SupplierQuerySet, TransactionQuerySet
 
 
 class Supplier(models.Model):
@@ -47,7 +47,9 @@ class Product(models.Model):
         managed = settings.SUPPLIERS_TABLES_MANAGED
 
 
-class Transactions(models.Model):
+class Transaction(models.Model):
+    objects = TransactionQuerySet.as_manager()
+
     customer = models.ForeignKey('Customer', on_delete=models.PROTECT)
     product = models.ForeignKey('Product', on_delete=models.PROTECT)
     cost = models.FloatField(null=True)
