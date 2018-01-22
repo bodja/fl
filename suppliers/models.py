@@ -1,7 +1,8 @@
+from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 from django.conf import settings
 
-from suppliers.querysets import SupplierQuerySet, TransactionQuerySet
+from .querysets import SupplierQuerySet, TransactionQuerySet
 
 
 class Supplier(models.Model):
@@ -16,9 +17,11 @@ class Supplier(models.Model):
         db_table = 'suppliers'
         managed = settings.SUPPLIERS_TABLES_MANAGED
 
-    def check_password(self, password):
-        # TODO
-        return password == password
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
 
 
 class Customer(models.Model):
