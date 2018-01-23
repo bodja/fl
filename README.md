@@ -3,7 +3,7 @@ File upload
 
 Requires
 --------
-* python 3.5
+* python 3.6
 
 Required packages
 -----------------
@@ -81,3 +81,8 @@ The admin site can be reached through the URL route
 ```
 <service_domain>/admin/
 ```
+
+Deployment
+----------
+
+https://docs.djangoproject.com/en/2.0/howto/deployment/

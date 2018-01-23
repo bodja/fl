@@ -13,10 +13,6 @@ from django.utils.translation import gettext, gettext_lazy as _
 from .forms import SupplierChangeForm, SupplierCreationForm
 from .models import Supplier, Customer, Product, Transaction
 
-admin.site.register(Customer)
-admin.site.register(Product)
-admin.site.register(Transaction)
-
 
 @admin.register(Supplier)
 class SupplierAdmin(admin.ModelAdmin):
@@ -29,6 +25,10 @@ class SupplierAdmin(admin.ModelAdmin):
         'title',
         'code',
     ]
+    search_fields = (
+        'title',
+        'code'
+    )
 
     form = SupplierChangeForm
     add_form = SupplierCreationForm
@@ -110,3 +110,54 @@ class SupplierAdmin(admin.ModelAdmin):
             'admin/auth/user/change_password.html',
             context,
         )
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'title',
+        'code',
+    ]
+    search_fields = (
+        'title',
+        'code',
+        'address',
+    )
+    raw_id_fields = (
+        'supplier',
+    )
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'title',
+        'code',
+    ]
+    search_fields = (
+        'title',
+        'code',
+    )
+    raw_id_fields = (
+        'supplier',
+    )
+
+
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'customer_id',
+        'product_id',
+        'cost',
+        'price',
+        'quantity',
+        'delivered',
+        'stopped',
+    ]
+    raw_id_fields = (
+        'customer',
+        'product',
+    )

@@ -211,10 +211,10 @@ ALLOWED_CURRENCIES = ['EUR', 'GBP']
 # used by api to validate extension
 ALLOWED_FILE_EXTENSIONS = ['csv', 'xls', 'xlsx']
 # pattern to match filename
-FILENAME_PATTERN = '-(?P<currency>{currencies})' \
-                   '_(?P<date>\d{{2}}\.\d{{2}}\.\d{{4}})' \
-                   '\.(?P<extension>{extensions})$'.format(
-    currencies='|'.join(ALLOWED_CURRENCIES),
-    extensions='|'.join(ALLOWED_FILE_EXTENSIONS))
+currencies = '|'.join(ALLOWED_CURRENCIES)
+extensions = '|'.join(ALLOWED_FILE_EXTENSIONS)
+FILENAME_PATTERN = f'-(?P<currency>{currencies})' \
+                   '_(?P<date>\d{2}\.\d{2}\.\d{4})' \
+                   f'\.(?P<extension>{extensions})$'
 # regex to parse currency date and extension from filename
 FILENAME_REGEX = re.compile(FILENAME_PATTERN, re.IGNORECASE)

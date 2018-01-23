@@ -38,6 +38,10 @@ class FileModel(models.Model):
     processing_status = models.CharField(max_length=25, choices=STATUSES,
                                          default=STATUSES.pending)
 
+    def __str__(self):
+        return f'{self.get_processing_status_display()}:' \
+               f'{self.supplier_id}-{self.currency}-{self.date}'
+
     def can_be_processed(self):
         return self.processing_status == self.STATUSES.pending
 

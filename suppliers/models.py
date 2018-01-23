@@ -17,6 +17,9 @@ class Supplier(models.Model):
         db_table = 'suppliers'
         managed = settings.SUPPLIERS_TABLES_MANAGED
 
+    def __str__(self):
+        return f'{self.code}:{self.title}'
+
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
 
@@ -39,6 +42,9 @@ class Customer(models.Model):
         db_table = 'customers'
         managed = settings.SUPPLIERS_TABLES_MANAGED
 
+    def __str__(self):
+        return f'{self.code}:{self.currency}:{self.title}'
+
 
 class Product(models.Model):
     supplier = models.ForeignKey('Supplier', on_delete=models.PROTECT)
@@ -48,6 +54,9 @@ class Product(models.Model):
     class Meta(object):
         db_table = 'products'
         managed = settings.SUPPLIERS_TABLES_MANAGED
+
+    def __str__(self):
+        return f'{self.code}:{self.title}'
 
 
 class Transaction(models.Model):
@@ -64,3 +73,6 @@ class Transaction(models.Model):
     class Meta(object):
         db_table = 'transactions'
         managed = settings.SUPPLIERS_TABLES_MANAGED
+
+    def __str__(self):
+        return f'{self.product} - {self.delivered}'

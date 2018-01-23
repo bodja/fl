@@ -5,9 +5,10 @@ REGISTERED_PARSERS = {}
 
 def _register(supplier_id, func):
     if supplier_id in REGISTERED_PARSERS:
-        msg = 'Another parser for supplier_id={} was already registered {}.'
-        raise ValueError(msg.format(supplier_id, func.__name__))
-
+        raise ValueError(
+            f'Another parser for supplier_id={supplier_id} was already '
+            f'registered {func.__name__}.'
+        )
     REGISTERED_PARSERS[supplier_id] = func
 
 
@@ -33,7 +34,7 @@ def register(supplier_ids):
 
 def get_parser(supplier_id):
     if supplier_id not in REGISTERED_PARSERS:
-        msg = 'Parser for supplier_id={} is not registered.'
-        raise ValueError(msg.format(supplier_id))
+        msg = f'Parser for supplier_id={supplier_id} is not registered.'
+        raise ValueError(msg)
 
     return REGISTERED_PARSERS[supplier_id]
