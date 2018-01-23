@@ -11,10 +11,11 @@ class SupplierQuerySet(QuerySet):
 class TransactionQuerySet(QuerySet):
 
     @transaction.atomic  # commit in single transaction, rollback on exception
-    def update_or_create_from_data(self, supplier_id, currency, data):
+    def update_or_create_from_data(self, supplier_id, currency, date, data):
         """
         :param supplier_id: <int> id of the supplier record
         :param currency: <str> currency code
+        :param date: <datetime> or date ISO format
         :param data: <list> of <dict>. List of transactions
             [
                 {
@@ -52,11 +53,11 @@ class TransactionQuerySet(QuerySet):
             self.model.objects.update_or_create(
                 customer=customer,
                 product=product,
-                delivered=trans['delivered'],
+                delivered=date,
                 defaults={
                     'cost': trans['cost'],
                     'quantity': trans['quantity'],
                     'price': trans['price'],
-                    'stopped': False,  # todo
+                    'stopped': False
                 }
             )

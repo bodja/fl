@@ -68,7 +68,7 @@ class Transaction(models.Model):
     price = models.FloatField(null=True)
     quantity = models.FloatField(null=True)
     delivered = models.DateTimeField()
-    stopped = models.BooleanField()
+    stopped = models.BooleanField(default=False)
 
     class Meta(object):
         db_table = 'transactions'

@@ -51,7 +51,7 @@ class FileModel(models.Model):
         try:
             parser = get_parser(self.supplier_id)
             data = parser(self.file)
-            Transaction.objects.update_or_create_from_data(data)
+            Transaction.objects.update_or_create_from_data(self.supplier_id, self.currency, self.date, data)
 
         except Exception:  # todo: specify exact exceptions
             self.set_status(self.STATUSES.fail)
