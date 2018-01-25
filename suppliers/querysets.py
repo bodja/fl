@@ -1,6 +1,8 @@
 from django.db import transaction
 from django.db.models import QuerySet
+import logging
 
+logger = logging.getLogger(__name__)
 
 class SupplierQuerySet(QuerySet):
 
@@ -32,32 +34,35 @@ class TransactionQuerySet(QuerySet):
             ]
         """
         from .models import Customer, Product  # to avoid circular import
+        from django.utils import timezone
+        from datetime import datetime
 
+        dt_unaware = datetime.combine(date, datetime.min.time())
+        dt_aware = timezone.make_aware(dt_unaware, timezone.get_current_timezone())
         for trans in data:
             # https://docs.djangoproject.com/en/2.0/ref/models/querysets/#update-or-create
             # "defaults" are fields to be updated with provided values
+            try:
+                customer, created = Customer.objects.update_or_create(
+                    supplier_id=supplier_id,
+                    code=trans['customer_code'],
+                    currency=currency,
+                    defaults={'title': trans['customer_title']}
+                )
 
-            customer, created = Customer.objects.update_or_create(
-                supplier_id=supplier_id,
-                code=trans['customer_code'],
-                currency=currency,
-                defaults={'title': trans['customer_title']}
-            )
+                product, created = Product.objects.update_or_create(
+                    supplier_id=supplier_id,
+                    code=trans['customer_code'],
+                    defaults={'title': trans['customer_title']}
+                )
 
-            product, created = Product.objects.update_or_create(
-                supplier_id=supplier_id,
-                code=trans['customer_code'],
-                defaults={'title': trans['customer_title']}
-            )
-
-            self.model.objects.update_or_create(
-                customer=customer,
-                product=product,
-                delivered=date,
-                defaults={
-                    'cost': trans['cost'],
-                    'quantity': trans['quantity'],
-                    'price': trans['price'],
-                    'stopped': False
-                }
-            )
+                self.model.objects.create(
+                    customer=customer,
+                    product=product,
+                    delivered=dt_aware,
+                    cost=trans['cost'],
+                    quantity=trans['quantity'],
+                    price=trans['price']
+                )
+            except Exception as e:
+                logger.exception(str(e))

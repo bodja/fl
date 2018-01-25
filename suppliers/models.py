@@ -31,12 +31,12 @@ class Customer(models.Model):
     supplier = models.ForeignKey('Supplier', on_delete=models.PROTECT)
     code = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
-    address = models.CharField(max_length=255, null=True)
+    # address = models.CharField(max_length=255, null=True)
     currency = models.CharField(max_length=255)
-    last_delivered = models.DateTimeField(null=True)
-    month_value = models.FloatField(null=True)
-    threatened_value = models.FloatField(null=True)
-    growth = models.FloatField(null=True)
+    # last_delivered = models.DateTimeField(null=True)
+    # month_value = models.FloatField(null=True)
+    # threatened_value = models.FloatField(null=True)
+    # growth = models.FloatField(null=True)
 
     class Meta(object):
         db_table = 'customers'
@@ -68,7 +68,7 @@ class Transaction(models.Model):
     price = models.FloatField(null=True)
     quantity = models.FloatField(null=True)
     delivered = models.DateTimeField()
-    stopped = models.BooleanField(default=False)
+    # stopped = models.BooleanField(default=False)
 
     class Meta(object):
         db_table = 'transactions'

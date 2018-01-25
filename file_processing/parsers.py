@@ -1,7 +1,9 @@
 import xlrd
+import logging
 
 from .parsers_registry import register
 
+logger = logging.getLogger(__name__)
 
 def open_excel_sheet(file_instance, sheet=0):
     workbook = xlrd.open_workbook(file_instance, encoding_override="cp1252")
@@ -25,7 +27,8 @@ def dummy_parser(file_instance):
 
 @register([1])
 def bd_parser(file_instance):
-    sheet = open_excel_sheet(file_instance)
+    logger.info('Parsing BD Foods sales file: {0}'.format(file_instance))
+    sheet = open_excel_sheet(str(file_instance))
 
     code_row, code_col = search_sheet('Acc No', sheet)
     company_row, company_col = search_sheet('Company', sheet)
@@ -72,5 +75,5 @@ def bd_parser(file_instance):
 
     if len(transactions) == 0:
         raise xlrd.XLRDError('No data could be read from BD Foods file')
-    print(len(transactions))
+    logger.debug('Parsed BD Foods transactions: {0}'.format(len(transactions)))
     return transactions

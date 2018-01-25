@@ -46,12 +46,14 @@ class FileModel(models.Model):
         return self.processing_status == self.STATUSES.pending
 
     def process(self):
+        logger.debug('Begin parsing file: {0}'.format(self.file))
         self.set_status(self.STATUSES.in_progress)
 
         try:
             parser = get_parser(self.supplier_id)
             data = parser(self.file)
             Transaction.objects.update_or_create_from_data(self.supplier_id, self.currency, self.date, data)
+            logger.debug('Database updated with parsed information')
 
         except Exception:  # todo: specify exact exceptions
             self.set_status(self.STATUSES.fail)
@@ -67,4 +69,5 @@ class FileModel(models.Model):
 @receiver(signals.post_save, sender=FileModel)
 def start_processing(sender, instance, **kwargs):
     if instance.can_be_processed():
+        logger.info('Adding task to celery task queue for: {0}'.format(instance))
         process_file.delay(instance.pk)

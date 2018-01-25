@@ -122,7 +122,7 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = (
         'title',
         'code',
-        'address',
+        # 'address',
     )
     raw_id_fields = (
         'supplier',
@@ -155,7 +155,7 @@ class TransactionAdmin(admin.ModelAdmin):
         'price',
         'quantity',
         'delivered',
-        'stopped',
+        # 'stopped',
     ]
     raw_id_fields = (
         'customer',

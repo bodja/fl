@@ -7,6 +7,8 @@ from file_processing.utils import extract_currency, extract_date
 from suppliers.models import Transaction
 from . import validators
 
+import logging
+logger = logging.getLogger(__name__)
 
 class FileUploadSerializer(serializers.ModelSerializer):
     file = serializers.FileField(
@@ -23,13 +25,13 @@ class FileUploadSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, attrs):
+        logger.info('Running file validation on: {0}'.format(attrs['file']))
         attrs = self.validate_currency(attrs)
         attrs = self.validate_date(attrs)
         attrs = self.validate_supplier_id(attrs)
 
         self.validate_unique_file(attrs)
         self.validate_unique_transaction(attrs)
-
         return attrs
 
     def validate_currency(self, attrs):
